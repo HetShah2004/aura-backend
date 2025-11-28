@@ -1,18 +1,19 @@
-const mysql=require('mysql');
+const mysql = require('mysql2');
 
-const con=mysql.createConnection({
-    host:'localhost',
-    user:'root',
-    password:'',
-    database:'voicerec'
+const con = mysql.createConnection({
+    host: 'mainline.proxy.rlwy.net',
+    user: 'root',
+    port: 12999,
+    password: 'xXdNPXUDXzUZAEMmQbjGADtilxtyGTPI',
+    database: 'railway'
 });
 
-con.connect((err)=>{
-    if(err){
-        console.warn("error", err)
-    }else{
-        console.warn("connected")
+con.connect((err) => {
+    if (err) {
+        console.warn("error connecting:", err);
+    } else {
+        console.warn("connected to cloud db");
     }
 });
 
-module.exports = con
+module.exports = con;
