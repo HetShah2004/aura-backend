@@ -1,19 +1,25 @@
 const mysql = require('mysql2');
 
-const con = mysql.createConnection({
+// Use a Connection Pool instead of a single connection
+// Pools automatically handle reconnection, timeouts, and keeping the connection alive.
+const pool = mysql.createPool({
     host: 'mainline.proxy.rlwy.net',
     user: 'root',
     port: 12999,
     password: 'xXdNPXUDXzUZAEMmQbjGADtilxtyGTPI',
-    database: 'railway'
+    database: 'railway',
+    waitForConnections: true,
+    connectionLimit: 10,
+    queueLimit: 0
 });
 
-con.connect((err) => {
+pool.getConnection((err, connection) => {
     if (err) {
-        console.warn("error connecting:", err);
+        console.warn("Error connecting to DB pool:", err);
     } else {
-        console.warn("connected to cloud db");
+        console.warn("Successfully connected to DB pool");
+        connection.release(); // Always release the connection back to the pool
     }
 });
 
-module.exports = con;
+module.exports = pool;
